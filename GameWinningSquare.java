@@ -2,13 +2,13 @@ public class GameWinningSquare extends SolidSquare implements GraphicObject{
     enum Color{
         RED,
         GREEN,
-        YELLOW
+        BLUE
     }
     private Color color;
     private boolean solved;
     public GameMediator mediator;   
 
-    public GameWinningSquare(Color color,Coord coordinates,mediator){
+    public GameWinningSquare(Color color,Coord coordinates,GameMediator mediator){
        super(coordinates);
        this.color = color;
        this.solved = false;

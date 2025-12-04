@@ -4,5 +4,6 @@ abstract class Square implements GraphicObject{
     public Square(Coord coordinates){
       this.coordinates = coordinates;
     }
+
     abstract public boolean isTraversable();
 }
