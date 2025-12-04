@@ -9,9 +9,26 @@ public class GameMediator{
       this.matchChecker = matchChecker;
       this.player = player;
   }
-  public void activatedSquare(Square square){
-    matchChecker.addNewWinningSquare();
-  };
-  interactGameObjects
 
+
+  public void interactGameobjects(){
+      player.move();
+  };
+
+  public void drawGameObjects(){
+      terrain.drawself();
+      ball.drawself();
+  };
+
+  public boolean gameIsOver(){
+     return player.isDead(); 
+  };
+
+  public void activatedSquare(Square square){
+    matchChecker.addNewWinningSquare((GameWinningSquare) square);
+  };
+
+  public Square getSquareObject(Coord coord){
+      return terrain.getSquareAt(coord);
+  };
 }
