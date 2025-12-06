@@ -13,6 +13,7 @@ public class GameWinningSquare extends SolidSquare implements GraphicObject{
        this.color = color;
        this.solved = false;
        this.mediator = mediator;
+       mediator.addNewWinningSquare(this);
     } 
 
     public void markAsSolved(){
@@ -47,6 +48,5 @@ public class GameWinningSquare extends SolidSquare implements GraphicObject{
 
     @Override
     public void drawself(){
-      super.drawself(); 
     }
 }

@@ -11,23 +11,27 @@ public class GameMediator{
   }
 
 
-  public void interactGameobjects(){
+  public void interactGameObjects(){
       player.move();
   };
 
   public void drawGameObjects(){
       terrain.drawself();
-      ball.drawself();
+      player.drawself();
   };
 
   public boolean gameIsOver(){
      return player.isDead(); 
   };
 
-  public void activatedSquare(Square square){
+  public void addNewWinningSquare(Square square){
     matchChecker.addNewWinningSquare((GameWinningSquare) square);
   };
+  
 
+  public void activatedSquare(Square square){
+    matchChecker.recordActivation((GameWinningSquare) square);
+  };
   public Square getSquareObject(Coord coord){
       return terrain.getSquareAt(coord);
   };

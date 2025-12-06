@@ -35,7 +35,7 @@ public class MatchChecker{
     }; 
     
   public boolean puzzleSolved(){
-      boolean solved {true};
+      boolean solved = true;
       for(GameWinningSquare square : winningSquares){
           solved  = solved && square.hasBeenSolved();
           if(!solved)

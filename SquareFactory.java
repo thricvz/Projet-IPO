@@ -9,14 +9,15 @@ public class SquareFactory{
             return new FloorSquare(position);              
 
           case "R":
-            return new GameWinningSquare(Color.RED,position,mediator);              
+            return new GameWinningSquare(GameWinningSquare.Color.RED,position,mediator);              
 
           case "G":
-            return new GameWinningSquare(Color.GREEN,position,mediator);              
+            return new GameWinningSquare(GameWinningSquare.Color.GREEN,position,mediator);              
 
           case "B":
-            return new GameWinningSquare(Color.BLUE,position,mediator);              
+            return new GameWinningSquare(GameWinningSquare.Color.BLUE,position,mediator);              
       };
+      return null;
   }
 
 

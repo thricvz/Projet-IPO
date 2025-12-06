@@ -1,5 +1,5 @@
 
-public class Jeu(){
+public class Jeu{
     private GameMediator mediator;
     
     public Jeu(GameMediator mediator){

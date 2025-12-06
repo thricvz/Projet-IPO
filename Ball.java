@@ -16,7 +16,7 @@ public class Ball implements GraphicObject{
       x  = 0;
       y  = 0;
   }
-  public void move();
+  public void move(){};
   
   public boolean isDead(){
       return lives == 0;
