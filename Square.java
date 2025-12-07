@@ -1,4 +1,6 @@
-abstract class Square implements GraphicObject{
+
+abstract class Square{
+
     protected Coord coordinates; 
 
     public Square(Coord coordinates){

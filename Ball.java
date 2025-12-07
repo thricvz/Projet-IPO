@@ -1,7 +1,7 @@
+import java.awt.Color;
+import java.awt.Graphics2D;
 
-
-
-public class Ball implements GraphicObject{
+public class Ball{
   private double x;
   private double y;
   private GameMediator mediator;
@@ -9,12 +9,15 @@ public class Ball implements GraphicObject{
   private int lives;
 
 
-  public Ball(GameMediator mediator){
-      this.mediator = mediator;
+  public Ball(){
+      this.mediator = null;
       gridCoords = new Coord(0,0);
       lives = 3;
       x  = 0;
       y  = 0;
+  }
+  public void setMediator(GameMediator mediator){
+    this.mediator = mediator;
   }
   public void move(){};
   
@@ -22,9 +25,18 @@ public class Ball implements GraphicObject{
       return lives == 0;
   } 
 
-  @Override
-  public void drawself(){
-      //left to implement
-  }
 
+  public void drawSelf(Graphics2D canvas){
+    this.gridCoords.x += 10;
+    canvas.setColor(Color.BLACK);
+    canvas.drawRect(gridCoords.x,gridCoords.y,40,40);
+    canvas.fillRect(gridCoords.x,gridCoords.y,40,40);
+  }
+  /*
+  @Override
+  public void paintComponent(Graphics g){
+      int a=5;
+  }  
+  */
+  
 }

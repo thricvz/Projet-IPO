@@ -1,12 +1,11 @@
-class FloorSquare extends TraversableSquare implements GraphicObject{
+import javax.swing.*;
+import java.awt.*;
+
+class FloorSquare extends TraversableSquare {
     public FloorSquare(Coord coordinates){
         super(coordinates);
     }  
    
-    @Override
-    public void drawself(){
-
-    }
     @Override
     public void enter(Ball player){
 

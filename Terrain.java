@@ -1,7 +1,8 @@
 import java.util.*;
+import java.awt.Graphics2D;
 import java.io.File;
 
-public class Terrain implements GraphicObject{
+public class Terrain{
     private String levelName;
     public int height;
     public int width;
@@ -21,7 +22,7 @@ public class Terrain implements GraphicObject{
         this.mediator = mediator;
 
     }
-    public  void generateTerrain(){
+    public void generateTerrain(){
       try{
         File levelFile = new File(this.levelName);
         Scanner fileReader = new Scanner(levelFile); 
@@ -48,7 +49,8 @@ public class Terrain implements GraphicObject{
         }
         this.height = current_y+1; 
         this.width = current_x; 
-
+        
+        fileReader.close();
  
       }catch(Exception e){
         System.out.println("Error with reading file");
@@ -67,13 +69,19 @@ public class Terrain implements GraphicObject{
         }
         return null;
     } 
-  
-   @Override 
-   public void drawself(){
+  /*
+   @Override
+   public void paintComponent(Graphics g){
       for( ArrayList<Square> line : field){
           for( Square square : line){
-              square.drawself();
+              square.repaint();
           } 
       } 
    };
+  
+  */
+  public void drawSelf(Graphics2D canvas){
+    
+  }
+  
 };

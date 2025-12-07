@@ -1,5 +1,5 @@
 
-abstract class SolidSquare extends Square implements GraphicObject{
+abstract class SolidSquare extends Square {
     public SolidSquare(Coord coordinates){
         super(coordinates);
     }  

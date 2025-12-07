@@ -1,6 +1,6 @@
 
 
-abstract class TraversableSquare extends Square implements GraphicObject{
+abstract class TraversableSquare extends Square{
     public TraversableSquare(Coord coordinates){
         super(coordinates);
     }  

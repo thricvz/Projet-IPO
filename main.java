@@ -1,13 +1,16 @@
+import javax.swing.JFrame;
+
 
 public class main{
-
   public static void main(String[] argv){
-    System.out.println("main file");      
-    MatchChecker matchChecker = new MatchChecker();
-    Terrain t = new Terrain("/home/eric/Projects/TPProjet/levels/level1");
-    GameMediator myMediator = new GameMediator(t, null, matchChecker);
-    t.setMediator(myMediator);
-    t.generateTerrain();
-  }
+    JFrame frame = new JFrame("My window");
+    frame.setSize(800,800);
 
+    GamePanel myGamePanel = new GamePanel();
+    frame.add(myGamePanel);
+
+ 
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setVisible(true);
+  }
 }

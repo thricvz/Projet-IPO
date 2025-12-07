@@ -1,16 +1,11 @@
+import java.awt.Graphics;
 
-
- class WallSquare extends SolidSquare implements GraphicObject{
+ class WallSquare extends SolidSquare {
     public WallSquare(Coord coordinates){
         super(coordinates);
     }  
    
   
-  
-   @Override  
-   public void drawself(){
-      
-   };
    @Override  
    public void onCollision(){
 

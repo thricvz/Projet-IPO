@@ -1,3 +1,6 @@
+import java.awt.*;
+
+
 public class GameMediator{
   private Ball player;
   private Terrain terrain; 
@@ -15,10 +18,10 @@ public class GameMediator{
       player.move();
   };
 
-  public void drawGameObjects(){
-      terrain.drawself();
-      player.drawself();
-  };
+  public void drawGameObjects(Graphics2D canvas){
+      terrain.drawSelf(canvas);
+      player.drawSelf(canvas);
+  }
 
   public boolean gameIsOver(){
      return player.isDead(); 

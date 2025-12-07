@@ -1,4 +1,5 @@
-public class GameWinningSquare extends SolidSquare implements GraphicObject{
+
+public class GameWinningSquare extends SolidSquare {
     enum Color{
         RED,
         GREEN,
@@ -46,7 +47,4 @@ public class GameWinningSquare extends SolidSquare implements GraphicObject{
         }
     };
 
-    @Override
-    public void drawself(){
-    }
 }
