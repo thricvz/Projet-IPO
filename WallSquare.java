@@ -9,12 +9,14 @@ class WallSquare extends SolidSquare {
   
    @Override  
    public void onCollision(){
-
+        //does nothing :-(
    };
 
    @Override  
    public void drawSelf(Graphics2D canvas){
-        Image sprite = this.assetsLibrary.getAsset("wall");
-        canvas.drawImage(sprite,50,50,50,50,null);
+        Image sprite = this.assetsLibrary.getAsset("wall");        
+        canvas.drawImage(sprite,coordinates.x*32,coordinates.y*32,32,32,null);
+
+            
    };
 }
