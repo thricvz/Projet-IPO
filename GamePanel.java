@@ -18,6 +18,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         this.mediator = new GameMediator(terrain, player, matchChecker);
         terrain.setMediator(mediator);
+        terrain.generateTerrain();
         player.setMediator(mediator);
     }
 

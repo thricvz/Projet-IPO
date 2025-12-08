@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class Ball{
+public class Ball implements GraphicElement{
   private double x;
   private double y;
   private GameMediator mediator;
@@ -25,18 +25,13 @@ public class Ball{
       return lives == 0;
   } 
 
-
+  @Override
   public void drawSelf(Graphics2D canvas){
     this.gridCoords.x += 10;
     canvas.setColor(Color.BLACK);
     canvas.drawRect(gridCoords.x,gridCoords.y,40,40);
     canvas.fillRect(gridCoords.x,gridCoords.y,40,40);
   }
-  /*
-  @Override
-  public void paintComponent(Graphics g){
-      int a=5;
-  }  
-  */
+
   
 }

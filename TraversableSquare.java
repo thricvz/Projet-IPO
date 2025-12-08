@@ -1,4 +1,4 @@
-
+import java.awt.Graphics2D;
 
 abstract class TraversableSquare extends Square{
     public TraversableSquare(Coord coordinates){
@@ -13,4 +13,6 @@ abstract class TraversableSquare extends Square{
       return true;
    }
 
+    @Override 
+    public void drawSelf(Graphics2D canvas){};
 }

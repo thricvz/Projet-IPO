@@ -1,3 +1,4 @@
+import java.awt.Graphics2D;
 
 public class GameWinningSquare extends SolidSquare {
     enum Color{
@@ -38,7 +39,11 @@ public class GameWinningSquare extends SolidSquare {
     public Color getColor(){
         return this.color;
     }
-    
+    @Override 
+    public void drawSelf(Graphics2D canvas){
+
+
+    }
     @Override 
     public void onCollision(){
         if(!hasBeenSolved()){

@@ -11,5 +11,11 @@ class FloorSquare extends TraversableSquare {
 
     }
 
+    @Override
+    public void drawSelf(Graphics2D canvas){
+        Image sprite = this.assetsLibrary.getAsset("floor");
+        canvas.drawImage(sprite,0,0,50,50,null);
+    };
+      
 
 }
