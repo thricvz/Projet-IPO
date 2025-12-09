@@ -51,9 +51,9 @@ public class Terrain implements GraphicElement{
         this.width = current_x; 
         
         fileReader.close();
- 
+
       }catch(Exception e){
-        System.out.println("Error with reading file");
+        System.out.println("Error with reading file " + e.getMessage());
       }
 
 

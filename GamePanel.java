@@ -20,6 +20,8 @@ public class GamePanel extends JPanel implements Runnable{
         terrain.setMediator(mediator);
         terrain.generateTerrain();
         player.setMediator(mediator);
+
+        this.addMouseMotionListener(player);
     }
 
     private void startGameLoop(){
