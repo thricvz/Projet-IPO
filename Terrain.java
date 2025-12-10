@@ -65,7 +65,7 @@ public class Terrain implements GraphicElement{
         boolean y_is_valid = (coordinates.y < width) && (coordinates.y >= 0 );
         
         if(x_is_valid && y_is_valid){
-          return field.get(coordinates.x).get(coordinates.y);
+          return field.get(coordinates.y).get(coordinates.x);
         }
         return null;
     } 

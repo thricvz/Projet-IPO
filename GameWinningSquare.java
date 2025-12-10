@@ -58,7 +58,7 @@ public class GameWinningSquare extends SolidSquare {
     @Override 
     public void drawSelf(Graphics2D canvas){
         Image sprite = this.assetsLibrary.getAsset(this.sprite);
-        canvas.drawImage(sprite,coordinates.x*32,coordinates.y*32,32,32,null);
+        canvas.drawImage(sprite,coordinates.x*Config.blockSize,coordinates.y*Config.blockSize,Config.blockSize,Config.blockSize,null);
     }
     @Override 
     public void onCollision(){

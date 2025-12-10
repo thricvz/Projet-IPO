@@ -7,7 +7,7 @@ public class GamePanel extends JPanel implements Runnable{
     private Thread gameThread;
 
     public GamePanel(){
-        setupGame("/home/eric/Projects/TPProjet/levels/level1");
+        setupGame("/home/eric/Projects/TPProjet/levels/testlevel");
         startGameLoop();
     }
 
@@ -38,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable{
                 Thread.sleep(100);
         
             }catch(Exception e){
-                System.out.println("execption");
+                System.out.println("Error occurred " + e.getMessage());
             }
         }
     }
