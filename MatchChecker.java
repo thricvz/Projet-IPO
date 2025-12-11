@@ -28,9 +28,12 @@ public class MatchChecker{
         if(lastActivated.getColor() == nowActivated.getColor()){
           lastActivated.markAsSolved();
           nowActivated.markAsSolved();
+          lastActivated = null;
+          nowActivated = null;
         }else{
           lastActivated.hide();
-          nowActivated.hide();
+          lastActivated = nowActivated;
+          nowActivated = null;
         }
     }; 
     

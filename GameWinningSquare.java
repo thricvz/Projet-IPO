@@ -20,11 +20,15 @@ enum Color{
 }
 
 public class GameWinningSquare extends SolidSquare {
-    
+    enum State{
+        HIDDEN,
+        REVEALED
+    }
     private Color color;
     private boolean solved;
     private String sprite;
     private GameMediator mediator;   
+    private State state;
     
     public GameWinningSquare(Color color,Coord coordinates,GameMediator mediator){
        super(coordinates);
@@ -32,11 +36,11 @@ public class GameWinningSquare extends SolidSquare {
        this.solved = false;
        this.mediator = mediator;
        mediator.addNewWinningSquare(this);
-       this.reveal();
+       this.state = State.HIDDEN;
+       this.hide();
     } 
 
     public void markAsSolved(){
-      reveal();
       solved = true;
     };
     public boolean hasBeenSolved(){
@@ -45,11 +49,15 @@ public class GameWinningSquare extends SolidSquare {
    
     //functions that handle the skin of the actual block    
     private void reveal(){
-        this.sprite = "puzzlebox_" + Color.getColorName(this.color) + "_revealed";
+      this.sprite = "puzzlebox_" + Color.getColorName(this.color) + "_revealed";
+      this.state = State.REVEALED;
+      
     } 
 
     public void hide(){
         this.sprite = "puzzlebox_hidden";
+        this.state = State.HIDDEN;
+
     };
 
     public Color getColor(){
@@ -62,9 +70,14 @@ public class GameWinningSquare extends SolidSquare {
     }
     @Override 
     public void onCollision(){
-        if(!hasBeenSolved()){
-          reveal();
-          mediator.activatedSquare(this);
+        if(hasBeenSolved()){
+            reveal();
+            return;
+        }else if(state == State.HIDDEN){
+            reveal();
+            mediator.activatedSquare(this);
+        }else{
+            hide();
         }
     };
 
