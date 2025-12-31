@@ -35,7 +35,7 @@ public class GameMediator{
   public void activatedSquare(Square square){
     matchChecker.recordActivation((GameWinningSquare) square);
   };
-  public Square getSquareObject(Coord coord){
+  public Square getSquare(Coord coord){
       return terrain.getSquareAt(coord);
   };
 }
