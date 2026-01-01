@@ -1,6 +1,8 @@
 
 public class SquareFactory{
    public static Square createSquare(String squareSymbol,Coord position,GameMediator mediator){
+      //refactor with a map 
+      //that then sets t he coordinate
       switch(squareSymbol){
           case "#":
             return new WallSquare(position);              
@@ -15,7 +17,9 @@ public class SquareFactory{
             return new GameWinningSquare(Color.GREEN,position,mediator);              
 
           case "B":
-            return new GameWinningSquare(Color.BLUE,position,mediator);              
+            return new GameWinningSquare(Color.BLUE,position,mediator);
+          case "I":
+            return new InstantKillSquare(position,mediator);             
       };
       return null;
   }

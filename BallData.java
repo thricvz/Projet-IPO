@@ -5,7 +5,7 @@ public class BallData {
     
     BallData(double radius,Vec pos,Vec speed, Vec direction,int lives){
         this.radius = radius;
-        this.position = position.copy();
+        this.position = pos.copy();
         this.speed = speed.copy();
         this.direction = direction.copy();
         this.lives = lives;
