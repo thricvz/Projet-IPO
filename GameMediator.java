@@ -27,6 +27,10 @@ public class GameMediator{
      return player.isDead(); 
   };
 
+  public boolean gameWon(){
+      return matchChecker.puzzleSolved();
+
+  }
   public void addNewWinningSquare(Square square){
     matchChecker.addNewWinningSquare((GameWinningSquare) square);
   };
