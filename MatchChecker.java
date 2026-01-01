@@ -18,7 +18,7 @@ public class MatchChecker{
 
     public void recordActivation(GameWinningSquare activatedSquare){
         //no pair has been initiated yet
-        if(lastActivated == null){
+        if(lastActivated == null || lastActivated.hashCode() == activatedSquare.hashCode()){
            lastActivated = activatedSquare;
            return;
         }
