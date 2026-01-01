@@ -9,6 +9,7 @@ public class GamePanel extends JPanel {
 
     public GamePanel() {
         setupGame("levels/level1");
+        setSize(Config.screenWidth,Config.screenHeight);
         startGameLoop();
     }
 

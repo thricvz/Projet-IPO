@@ -26,7 +26,17 @@ public class Ball implements GraphicElement,MouseMotionListener{
       this.direction = new Vec();
       this.lastMousePos = null ;
   }
-   
+  public void loadData(BallData data){
+      this.radius = data.radius;
+      this.pos = data.position;
+      this.speed = data.speed;
+      this.direction = data.direction;
+      this.lives = data.lives;
+  }
+
+  public BallData produceData(){
+      return new BallData(radius, pos, speed, direction, lives);
+  }
 
   //pas toucher : pas besoin de modifier, il s'agit d'une abstraction
   public void setMediator(GameMediator mediator){
@@ -88,8 +98,7 @@ public class Ball implements GraphicElement,MouseMotionListener{
       if (rightSquare != null && !rightSquare.isTraversable()) { // mur => repousser la balle
           speed.x = -speed.x * 0.8;
           hasRebounced = true ;
-      } if (rightSquare instanceof GameWinningSquare) { // case de sortie => activer / désactiver case
-          ((GameWinningSquare) rightSquare).onCollision();
+          ((SolidSquare) rightSquare).onCollision();
       }
     }
 
@@ -98,9 +107,9 @@ public class Ball implements GraphicElement,MouseMotionListener{
       if (leftSquare != null && !leftSquare.isTraversable()) {
           speed.x = -speed.x * 0.8;
           hasRebounced = true ;
-      } if (leftSquare instanceof GameWinningSquare) {
-          ((GameWinningSquare) leftSquare).onCollision();
-      }
+          ((SolidSquare) leftSquare).onCollision();
+
+      } 
     }
 
     if (pos.y + radius > currentCellY + 1) { // collision en bas
@@ -108,8 +117,8 @@ public class Ball implements GraphicElement,MouseMotionListener{
       if (botSquare != null && !botSquare.isTraversable()) {
           speed.y = -speed.y * 0.8;
           hasRebounced = true ;
-      } if (botSquare instanceof GameWinningSquare) {
-          ((GameWinningSquare) botSquare).onCollision();
+          ((SolidSquare) botSquare).onCollision();
+
       }
     }
 
@@ -118,9 +127,8 @@ public class Ball implements GraphicElement,MouseMotionListener{
       if (highSquare != null && !highSquare.isTraversable()) {
           speed.y = -speed.y * 0.8;
           hasRebounced = true ;
-      } if (highSquare instanceof GameWinningSquare) {
-          ((GameWinningSquare) highSquare).onCollision();
-      }
+          ((SolidSquare) highSquare).onCollision();
+      } 
     }
 
     if (!hasRebounced) { // vérification collision avec les coins

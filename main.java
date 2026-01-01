@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 public class main{
   public static void main(String[] argv){
     JFrame frame = new JFrame("My window");
-    frame.setSize(Config.screenHeight,Config.screenWidth);
+    frame.setSize(Config.screenWidth,Config.screenHeight);
     frame.setResizable(false);
     
     GamePanel myGamePanel = new GamePanel();

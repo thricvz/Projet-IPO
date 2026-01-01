@@ -42,4 +42,13 @@ public class GameMediator{
   public Square getSquareObject(Coord coord){
       return terrain.getSquareAt(coord);
   };
+
+
+  public BallData getPlayerCharacteristics(){
+    return player.produceData();
+  }
+
+  public void modifyPlayer(BallData data){
+    player.loadData(data);
+  }
 }

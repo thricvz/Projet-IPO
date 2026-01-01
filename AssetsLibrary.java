@@ -23,7 +23,8 @@ class AssetsLibrary{
        this.addAssetToLibrary("puzzlebox_red_revealed", "assets/puzzlebox_red.png");
        this.addAssetToLibrary("puzzlebox_green_revealed", "assets/puzzlebox_green.png");
        this.addAssetToLibrary("puzzlebox_blue_revealed", "assets/puzzlebox_blue.png");
-
+       this.addAssetToLibrary("instant_kill_square", "assets/instant_kill_square.png");
+      
   };
 
   private void addAssetToLibrary(String assetName,String fileLocation){
