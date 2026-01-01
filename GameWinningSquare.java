@@ -81,4 +81,9 @@ public class GameWinningSquare extends SolidSquare {
         }
     };
 
+    @Override  
+    public boolean isTraversable(){
+        return true;
+    }
+
 }

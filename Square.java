@@ -12,4 +12,6 @@ abstract class Square implements GraphicElement{
 
     @Override 
     public void drawSelf(Graphics2D canvas){};
+
 }
+

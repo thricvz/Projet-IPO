@@ -17,12 +17,12 @@ class AssetsLibrary{
 
   private AssetsLibrary(){
        this.assetStorage = new HashMap<String,Image>(); 
-       this.addAssetToLibrary("floor","/home/eric/Projects/TPProjet/assets/ground.png"); 
-       this.addAssetToLibrary("wall","/home/eric/Projects/TPProjet/assets/wall.png"); 
-       this.addAssetToLibrary("puzzlebox_hidden", "/home/eric/Projects/TPProjet/assets/puzzlebox_hidden.png");
-       this.addAssetToLibrary("puzzlebox_red_revealed", "/home/eric/Projects/TPProjet/assets/puzzlebox_red.png");
-       this.addAssetToLibrary("puzzlebox_green_revealed", "/home/eric/Projects/TPProjet/assets/puzzlebox_green.png");
-       this.addAssetToLibrary("puzzlebox_blue_revealed", "/home/eric/Projects/TPProjet/assets/puzzlebox_blue.png");
+       this.addAssetToLibrary("floor","assets/ground.png"); 
+       this.addAssetToLibrary("wall","assets/wall.png"); 
+       this.addAssetToLibrary("puzzlebox_hidden", "assets/puzzlebox_hidden.png");
+       this.addAssetToLibrary("puzzlebox_red_revealed", "assets/puzzlebox_red.png");
+       this.addAssetToLibrary("puzzlebox_green_revealed", "assets/puzzlebox_green.png");
+       this.addAssetToLibrary("puzzlebox_blue_revealed", "assets/puzzlebox_blue.png");
 
   };
 

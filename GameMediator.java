@@ -1,5 +1,5 @@
 import java.awt.*;
-
+import java.awt.Color;
 
 public class GameMediator{
   private Ball player;
@@ -35,7 +35,7 @@ public class GameMediator{
   public void activatedSquare(Square square){
     matchChecker.recordActivation((GameWinningSquare) square);
   };
-  public Square getSquare(Coord coord){
+  public Square getSquareObject(Coord coord){
       return terrain.getSquareAt(coord);
   };
 }

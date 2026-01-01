@@ -16,7 +16,7 @@ public class Vec{
     }
 
     public double norm(){
-        return this.x * this.x  + this.y*this.y;
+        return Math.sqrt(this.x * this.x  + this.y*this.y);
     }
 
     public void mult(double factor){

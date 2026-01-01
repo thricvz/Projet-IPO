@@ -1,159 +1,220 @@
-import java.awt.event.KeyListener;
-import java.util.concurrent.ConcurrentHashMap;
-import java.awt.event.KeyEvent;
-import java.awt.*;
 import java.awt.Color;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.Graphics2D;
+import java.lang.Math;
+import java.util.ArrayList;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseEvent;
 
-public class Ball implements KeyListener,GraphicElement{
-    private GameMediator mediator;
-    private Vec speed;
-    private Vec position;
-    private Vec direction;
-    private Vec maxSpeed = new Vec(7,7); 
 
-    private double rayon = Config.blockSize/2;
-    private double frictionFactor = 0.2;
-    private double accelerationFactor = 2.5; 
+public class Ball implements GraphicElement,MouseMotionListener{
+  private double radius = 0.3 ;
+  private double vit = 0.02 ;
+  private double f = 0.01 ;
+  private Vec pos, speed, direction;
+  private double frict = 0.005 ;
+  private GameMediator mediator;
+  private Coord lastMousePos;
+  private int lives ;
+ 
+  public Ball(){
+      this.mediator = null;
+      this.lives = 3 ;
+      this.speed = new Vec();
+      this.pos = new Vec(10.5, 10.5);
+      this.direction = new Vec();
+      this.lastMousePos = null ;
+  }
+   
 
-    public Ball(){
-        this.mediator = null;
-        this.position = new Vec(10*Config.blockSize,10*Config.blockSize);
-        this.speed = new Vec();
-        this.direction = new Vec();
+  //pas toucher : pas besoin de modifier, il s'agit d'une abstraction
+  public void setMediator(GameMediator mediator){
+    this.mediator = mediator;
+  }
+
+  private Coord getCurrentCell() { // obtenir coordonnées case sous la balle
+    int cellX = (int)Math.floor(pos.x); // conversion en entier des coordonnées
+    int cellY = (int)Math.floor(pos.y);
+    return new Coord(cellX, cellY);
+  }
+
+  public boolean CornerCollision(int cellX, int cellY) { // gestion collision coin choisi
+
+    Coord cellToCheck = new Coord(cellX,cellY);
+
+    Square square = mediator.getSquareObject(cellToCheck);
+    if (square == null || square.isTraversable()) {
+        return false; // case vide ou traversable => coin pas solide
     }
 
-    public void setMediator(GameMediator mediator){
-        this.mediator = mediator;
+    double coinX = cellX;
+    double coinY = cellY;
+
+    double dx = pos.x - coinX; // distance balle - coin
+    double dy = pos.y - coinY;
+    double distance = Math.sqrt(dx*dx + dy*dy);
+
+    if (distance < radius) {
+        speed.x = -speed.x * 0.8; // rebond SIMPLE : inverser les deux vitesses
+        speed.y = -speed.y * 0.8;
+        
+        pos.x = coinX + (radius * dx/distance); // sortir la balle du mur
+        pos.y = coinY + (radius * dy/distance);
+
+        return true; // detection collision
+    }
+    return false; // pas de collision
+  }
+
+  public void checkCornerCollision(int cellX, int cellY) {
+    if(CornerCollision(cellX,cellY)) return; // coin haut-gauche
+    if(CornerCollision(cellX+1,cellY)) return; // coin haut-droit
+    if(CornerCollision(cellX,cellY+1)) return; // coin bas-gauche
+    if(CornerCollision(cellX+1,cellY+1)) return; // coin bas-droit
+  }
+
+  // méthode qui fait bouger le joueur
+  public void move() {
+    pos.add(speed); // modifier position de la balle selon sa vitesse
+
+    int currentCellX = this.getCurrentCell().x;  // coordonnées case actuelle de la balle
+    int currentCellY = this.getCurrentCell().y;
+
+    boolean hasRebounced = false ; // booléen vérifiant rebond de la balle
+
+    if (pos.x + radius > currentCellX + 1) { // collision à droite
+      Square rightSquare = mediator.getSquareObject(new Coord(currentCellX+1, currentCellY));
+      if (rightSquare != null && !rightSquare.isTraversable()) { // mur => repousser la balle
+          speed.x = -speed.x * 0.8;
+          hasRebounced = true ;
+      } if (rightSquare instanceof GameWinningSquare) { // case de sortie => activer / désactiver case
+          ((GameWinningSquare) rightSquare).onCollision();
+      }
     }
 
-    public void move(){
-        this.position.add(this.speed);
-        this.applyFriction();
-        this.limitSpeed();
-        this.handleCollisions();
-        //modify speed vector
+    if (pos.x - radius < currentCellX) { // collision à gauche
+      Square leftSquare = mediator.getSquareObject(new Coord(currentCellX-1, currentCellY));
+      if (leftSquare != null && !leftSquare.isTraversable()) {
+          speed.x = -speed.x * 0.8;
+          hasRebounced = true ;
+      } if (leftSquare instanceof GameWinningSquare) {
+          ((GameWinningSquare) leftSquare).onCollision();
+      }
     }
-    private void applyFriction(){
-        if(this.speed.norm() < this.frictionFactor){
-          this.speed = new Vec();
-        }else{
-          Vec frictionForce = this.direction.copy();
-          frictionForce.negative();
-          frictionForce.mult(frictionFactor);
 
-          this.speed.add(frictionForce);
+    if (pos.y + radius > currentCellY + 1) { // collision en bas
+      Square botSquare = mediator.getSquareObject(new Coord(currentCellX, currentCellY+1));
+      if (botSquare != null && !botSquare.isTraversable()) {
+          speed.y = -speed.y * 0.8;
+          hasRebounced = true ;
+      } if (botSquare instanceof GameWinningSquare) {
+          ((GameWinningSquare) botSquare).onCollision();
+      }
+    }
+
+    if (pos.y - radius < currentCellY) { // collision en haut
+      Square highSquare = mediator.getSquareObject(new Coord(currentCellX, currentCellY-1));
+      if (highSquare != null && !highSquare.isTraversable()) {
+          speed.y = -speed.y * 0.8;
+          hasRebounced = true ;
+      } if (highSquare instanceof GameWinningSquare) {
+          ((GameWinningSquare) highSquare).onCollision();
+      }
+    }
+
+    if (!hasRebounced) { // vérification collision avec les coins
+      checkCornerCollision(currentCellX, currentCellY);
+    }
+
+    double norme = speed.norm();
+    if (norme > 0) { // vérifie le mouvement de la balle
+      direction.x = speed.x / norme ; // calcul vecteur unitaire de direction (-1 < direction < 1)
+      direction.y = speed.y / norme ;
+
+      if (norme <= frict) { // vérifier norme par rapport au frottement
+        speed.x = 0 ;
+        speed.y = 0 ;
+      } else {
+          speed.x = speed.x - frict * direction.x; // appliquer force de friction du sol
+          speed.y = speed.y - frict * direction.y;
         }
+
+    } else { // vitesse nulle => direction nulle
+      direction.x = 0 ;
+      direction.y = 0 ;
+    }
+  }
+
+  public boolean isDead() {
+    return this.lives <= 0 ;
+  }
+ 
+  // implementer la methode qui permet a la balle de s'afficher sur l'écran
+  @Override
+  public void drawSelf(Graphics2D canvas){
+    int centerX = (int)(pos.x * Config.blockSize); // CONVERTIR terrain => pixels
+    int centerY = (int)(pos.y * Config.blockSize);
+    
+    int radiusPixels = (int)(radius * Config.blockSize);  // radius = 0.3
+    
+    int draw_x = centerX - radiusPixels;
+    int draw_y = centerY - radiusPixels;
+    
+    int diameter = radiusPixels * 2;
+    
+    canvas.setColor(Color.BLACK);
+    canvas.drawOval(draw_x, draw_y, diameter, diameter);
+    canvas.fillOval(draw_x, draw_y, diameter, diameter);
+}
+
+
+  //methodes de l'interface MouseMotionListener sont declenchees une fois la souris bougee
+ // l'idee est de mettre a jour la position de la balle qnd la souris est bougee
+  @Override
+  public void mouseDragged(MouseEvent event){
+    mouseMoved(event);
+  };
+
+
+  @Override
+  public void mouseMoved(MouseEvent event){
+    int currentX = event.getX();
+    int currentY = event.getY();    
+  
+    if (lastMousePos == null) { // premier appel si la position est nulle
+      lastMousePos = new Coord(currentX,currentY);
+      return;
+    }
+    int dx = currentX - lastMousePos.x;
+    int dy = currentY - lastMousePos.y;
+
+    double dxTerrain = dx / (double)Config.blockSize; // ajustement à l'échelle du terrain
+    double dyTerrain = dy / (double)Config.blockSize;
+
+    int distFromCenterX = currentX - (Config.screenWidth / 2); // distance entre curseur et centre du niveau
+    int distFromCenterY = currentY - (Config.screenHeight / 2);
+
+    double distanceFactor = 1.0;
+    
+    if (Math.abs(distFromCenterX) > 50 || Math.abs(distFromCenterY) > 50) {
+        // Quand loin du centre (>50px), augmente progressivement
+        double distance = Math.sqrt(distFromCenterX*distFromCenterX + distFromCenterY*distFromCenterY);
+        distanceFactor = 1.0 + (distance / 100.0); // Ex: distance=100 => facteur=1.0
     }
     
-    private void limitSpeed(){
-        double speedNorm = this.speed.norm();
-        if(speedNorm > maxSpeed.norm()){
-            double limitedXSpeed = (this.speed.x / speedNorm) * maxSpeed.x;
-            double limitedYSpeed = (this.speed.y / speedNorm) * maxSpeed.y;
-            this.speed = new Vec(limitedXSpeed,limitedYSpeed); 
-        }
+    // 3. Applique avec le facteur
+    speed.x += dxTerrain * f * distanceFactor;
+    speed.y += dyTerrain * f * distanceFactor;
 
-    }   
-
-    private void handleCollisions(){
-      int currentX = ((int) this.position.x )/ Config.blockSize;
-      int currentY = ((int) this.position.y )/ Config.blockSize;
-
-      if(this.position.x + this.rayon > (currentX + 1) * Config.blockSize ){
-         Coord squarePosition = new Coord(currentX+1,currentY);
-         Square collidedSquare = this.mediator.getSquare(squarePosition);
-         if(!collidedSquare.isTraversable()){
-            SolidSquare square = (SolidSquare) collidedSquare;
-            square.onCollision();
-            this.speed.mult(new Vec(-1,1));
-         }
-      }
-
-      if(this.position.x - this.rayon < currentX * Config.blockSize ){
-         Coord squarePosition = new Coord(currentX-1,currentY);
-         Square collidedSquare = this.mediator.getSquare(squarePosition);
-         if(!collidedSquare.isTraversable()){
-            SolidSquare square = (SolidSquare) collidedSquare;
-            square.onCollision();
-            this.speed.mult(new Vec(-1,1));
-         }
-      }
-      
-      if(this.position.y + this.rayon > (currentY + 1) * Config.blockSize ){
-         Coord squarePosition = new Coord(currentX,currentY+1);
-         Square collidedSquare = this.mediator.getSquare(squarePosition);
-         if(!collidedSquare.isTraversable()){
-            SolidSquare square = (SolidSquare) collidedSquare;
-            square.onCollision();
-            this.speed.mult(new Vec(1,-1));
-         }
+    double currentSpeed = speed.norm();
+    if (currentSpeed > 0.2) { // vérifie la limite de la vitesse actuelle
+        double factor = 0.2 / currentSpeed;
+        speed.x *= factor;
+        speed.y *= factor;
     }
 
-      if(this.position.y - this.rayon > currentY * Config.blockSize ){
-         Coord squarePosition = new Coord(currentX,currentY-1);
-         Square collidedSquare = this.mediator.getSquare(squarePosition);
-         if(!collidedSquare.isTraversable()){
-            SolidSquare square = (SolidSquare) collidedSquare;
-            square.onCollision();
-            this.speed.mult(new Vec(1,-1));
-         }
-      }
-    } 
-    public boolean isDead(){
-        return false;
-    }
-
-    @Override
-    public void drawSelf(Graphics2D canvas){
-        int diameter = Config.blockSize;
-        Coord  canvasPosition = new Coord(
-            (int)(position.x) - (diameter/2),
-            (int)(position.y) - (diameter/2)
-        );
-
-        canvas.setColor(Color.BLUE);
-        canvas.drawOval(canvasPosition.x, canvasPosition.y,diameter,diameter);
-        canvas.fillOval(canvasPosition.x, canvasPosition.y, diameter,diameter);
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e){
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e){}
-
-    @Override
-    public void keyTyped(KeyEvent e){
-        char keyPressed = e.getKeyChar();
-        Vec speedIncrement = new Vec();
-
-        switch(keyPressed){
-            case 'l':
-               speedIncrement.add(new Vec(1,0));
-               break;
-            case 'j':
-               speedIncrement.add(new Vec(-1,0));
-               break;
-            case 'i':
-               speedIncrement.add(new Vec(0,-1));
-               break;
-            case 'k':
-               speedIncrement.add(new Vec(0,1));
-               break;
-        }
-        speedIncrement.mult(this.accelerationFactor);
-        this.speed.add(speedIncrement);
-        //calculate the direction
-        
-        double normSpeed = this.speed.norm();
-        if(normSpeed > 0.0){
-            this.direction = new Vec(
-                this.speed.x / normSpeed,
-                this.speed.y / normSpeed
-            );
-        }
-
-
-    }
+    lastMousePos.x = currentX; // actualise la dernière position de la souris
+    lastMousePos.y = currentY;
+  }
 }
