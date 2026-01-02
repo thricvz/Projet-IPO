@@ -1,4 +1,6 @@
 import javax.swing.JPanel;
+
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.Timer;
@@ -9,7 +11,7 @@ public class GamePanel extends JPanel {
 
     public GamePanel() {
         setupGame("levels/level1");
-        setSize(Config.screenWidth,Config.screenHeight);
+        setPreferredSize(new Dimension(Config.screenWidth,Config.screenHeight));
         startGameLoop();
     }
 

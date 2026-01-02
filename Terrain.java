@@ -61,8 +61,8 @@ public class Terrain implements GraphicElement{
 
     public Square getSquareAt(Coord coordinates){
         //0,0 is upper left corner
-        boolean x_is_valid = (coordinates.x < width) && (coordinates.x >= 0 );
-        boolean y_is_valid = (coordinates.y < width) && (coordinates.y >= 0 );
+        boolean x_is_valid = (coordinates.x <= width) && (coordinates.x >= 0 );
+        boolean y_is_valid = (coordinates.y <= width) && (coordinates.y >= 0 );
         
         if(x_is_valid && y_is_valid){
           return field.get(coordinates.y).get(coordinates.x);
