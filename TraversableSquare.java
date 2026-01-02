@@ -6,7 +6,7 @@ abstract class TraversableSquare extends Square{
     }  
    
 
-   abstract public void enter(Ball player); 
+   abstract public void applyEffect (); 
 
    @Override  
    public boolean isTraversable(){

@@ -24,6 +24,7 @@ class AssetsLibrary{
        this.addAssetToLibrary("puzzlebox_green_revealed", "assets/puzzlebox_green.png");
        this.addAssetToLibrary("puzzlebox_blue_revealed", "assets/puzzlebox_blue.png");
        this.addAssetToLibrary("instant_kill_square", "assets/instant_kill_square.png");
+       this.addAssetToLibrary("teleport", "assets/teleport.png");
       
   };
 

@@ -15,7 +15,9 @@ public class SquareFactory{
 
           case "B": return new GameWinningSquare(Color.BLUE,position,mediator);
           
-          case "I": return new InstantKillSquare(position,mediator);             
+          case "I": return new InstantKillSquare(position,mediator);   
+                    
+          case "T": return new TeleportBlock(position,mediator);             
       };
 
       return null;

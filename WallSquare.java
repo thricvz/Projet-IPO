@@ -16,7 +16,5 @@ class WallSquare extends SolidSquare {
    public void drawSelf(Graphics2D canvas){
         Image sprite = this.assetsLibrary.getAsset("wall");        
         canvas.drawImage(sprite,coordinates.x*Config.blockSize,coordinates.y*Config.blockSize,Config.blockSize,Config.blockSize,null);
-
-            
    };
 }

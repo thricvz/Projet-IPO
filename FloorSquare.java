@@ -7,7 +7,7 @@ class FloorSquare extends TraversableSquare {
     }  
    
     @Override
-    public void enter(Ball player){
+    public void applyEffect(){
 
     }
 
