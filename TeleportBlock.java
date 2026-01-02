@@ -19,7 +19,7 @@ public class TeleportBlock extends SolidSquare implements GraphicElement {
     public void onCollision(){
         BallData data = this.mediator.getPlayerCharacteristics();
         data.position = randomPosition();
-        data.speed = new Vec();
+        //data.speed = new Vec();
         this.mediator.modifyPlayer(data);
     }
 
