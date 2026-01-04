@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 public class Ball implements GraphicElement,MouseMotionListener{
   private double radius = 0.3 ;
   private double vit = 0.02 ;
-  private double f = 0.01 ;
+  private double f = 0.02 ;
   private Vec pos, speed, direction;
   private double frict = 0.005 ;
   private GameMediator mediator;
@@ -69,8 +69,8 @@ public class Ball implements GraphicElement,MouseMotionListener{
 
         ((SolidSquare) square).onCollision();
 
-        speed.x = -speed.x * 0.8; // rebond SIMPLE : inverser les deux vitesses
-        speed.y = -speed.y * 0.8;
+        speed.x = -speed.x * 0.6; // rebond SIMPLE : inverser les deux vitesses
+        speed.y = -speed.y * 0.6;
         
         pos.x = coinX + (radius * dx/distance); // sortir la balle du mur
         pos.y = coinY + (radius * dy/distance);
@@ -99,7 +99,7 @@ public class Ball implements GraphicElement,MouseMotionListener{
     if (pos.x + radius > currentCellX + 1) { // collision à droite
       Square rightSquare = mediator.getSquareObject(new Coord(currentCellX+1, currentCellY));
       if (rightSquare != null && !rightSquare.isTraversable()) { // mur => repousser la balle
-          speed.x = -speed.x * 0.8;
+          speed.x = -speed.x * 0.6;
           pos.x = currentCellX + 1 - radius;
           hasRebounced = true ;
           ((SolidSquare) rightSquare).onCollision();
@@ -109,7 +109,7 @@ public class Ball implements GraphicElement,MouseMotionListener{
     if (pos.x - radius < currentCellX) { // collision à gauche
       Square leftSquare = mediator.getSquareObject(new Coord(currentCellX-1, currentCellY));
       if (leftSquare != null && !leftSquare.isTraversable()) {
-          speed.x = -speed.x * 0.8;
+          speed.x = -speed.x * 0.6;
           pos.x = currentCellX + radius;
           hasRebounced = true ;
           ((SolidSquare) leftSquare).onCollision();
@@ -120,7 +120,7 @@ public class Ball implements GraphicElement,MouseMotionListener{
     if (pos.y + radius > currentCellY + 1) { // collision en bas
       Square botSquare = mediator.getSquareObject(new Coord(currentCellX, currentCellY+1));
       if (botSquare != null && !botSquare.isTraversable()) {
-          speed.y = -speed.y * 0.8;
+          speed.y = -speed.y * 0.6;
           pos.y = currentCellY + 1 - radius;
           hasRebounced = true ;
           ((SolidSquare) botSquare).onCollision();
@@ -131,7 +131,7 @@ public class Ball implements GraphicElement,MouseMotionListener{
     if (pos.y - radius < currentCellY) { // collision en haut
       Square highSquare = mediator.getSquareObject(new Coord(currentCellX, currentCellY-1));
       if (highSquare != null && !highSquare.isTraversable()) {
-          speed.y = -speed.y * 0.8;
+          speed.y = -speed.y * 0.6;
           pos.y = currentCellY + radius;
           hasRebounced = true ;
           ((SolidSquare) highSquare).onCollision();
@@ -224,7 +224,7 @@ public class Ball implements GraphicElement,MouseMotionListener{
     if (Math.abs(distFromCursorX) > 50 || Math.abs(distFromCursorY) > 50) {
         // Quand la balle s'éloigne du curseur, augmente progressivement
         double distCr = Math.sqrt(distFromCursorX*distFromCursorX + distFromCursorY*distFromCursorY);
-        distanceFactor += (distCr / 200.0); // Ex: distance=100 => facteur=2.0
+        distanceFactor += (distCr / 250.0); // Ex: distance=100 => facteur=2.5
     }
     
     speed.x += dxTerrain * f * distanceFactor;
@@ -240,5 +240,4 @@ public class Ball implements GraphicElement,MouseMotionListener{
     lastMousePos.x = currentX; // actualise la dernière position de la souris
     lastMousePos.y = currentY;
   }
-
 }
