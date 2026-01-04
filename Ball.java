@@ -216,15 +216,15 @@ public class Ball implements GraphicElement,MouseMotionListener{
     int ballCenterPixelX = (int)(pos.x * Config.blockSize); // position de la balle (pixels)
     int ballCenterPixelY = (int)(pos.y * Config.blockSize);
 
-    int distFromCenterX = currentX - (ballCenterPixelX); // distance entre curseur et balle
-    int distFromCenterY = currentY - (ballCenterPixelY);
+    int distFromCursorX = currentX - (ballCenterPixelX); // distance entre curseur et balle
+    int distFromCursorY = currentY - (ballCenterPixelY);
 
     double distanceFactor = 1.0;
     
-    if (Math.abs(distFromCenterX) > 50 || Math.abs(distFromCenterY) > 50) {
-        // Quand la balle s'éloigne du centre, augmente progressivement (manque de flexibilité pour les différentes tailles de fenêtre)
-        double distance = Math.sqrt(distFromCenterX*distFromCenterX + distFromCenterY*distFromCenterY);
-        distanceFactor = 1.0 + (distance / 200.0); // Ex: distance=100 => facteur=2.0
+    if (Math.abs(distFromCursorX) > 50 || Math.abs(distFromCursorY) > 50) {
+        // Quand la balle s'éloigne du curseur, augmente progressivement
+        double distCr = Math.sqrt(distFromCursorX*distFromCursorX + distFromCursorY*distFromCursorY);
+        distanceFactor += (distCr / 200.0); // Ex: distance=100 => facteur=2.0
     }
     
     speed.x += dxTerrain * f * distanceFactor;
@@ -240,4 +240,5 @@ public class Ball implements GraphicElement,MouseMotionListener{
     lastMousePos.x = currentX; // actualise la dernière position de la souris
     lastMousePos.y = currentY;
   }
+
 }
